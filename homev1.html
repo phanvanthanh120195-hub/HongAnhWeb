@@ -15,405 +15,16 @@
         href="https://landing.engotheme.com/html/jenstore/demo/css/style-fix-nav.css">
     <link rel="stylesheet" type="text/css"
         href="https://landing.engotheme.com/html/jenstore/demo/css/style-form-search-mobile.css">
+    <link rel="stylesheet" type="text/css" href="/HongAnhWeb/css/homev1.css">
     <!-- scroll -->
-
-    <style>
-        .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .package-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .package-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-image {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 500;
-            color: #666;
-        }
-
-        .card-content {
-            padding: 24px;
-        }
-
-        .courses-count {
-            color: #3b82f6;
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a1a1a;
-            line-height: 1.4;
-            margin-bottom: 16px;
-            min-height: 50px;
-        }
-
-        .card-pricing {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .original-price {
-            color: #999;
-            text-decoration: line-through;
-            font-size: 14px;
-        }
-
-        .current-price {
-            color: #3b82f6;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        /* Card specific colors */
-        .card-blue .card-image {
-            background: linear-gradient(135deg, #0f4c81 0%, #1e88e5 100%);
-        }
-
-        .card-orange .card-image {
-            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-        }
-
-        /* Hover Effect Styles */
-        .package-card {
-            position: relative;
-            /* Ensure absolute child fits */
-        }
-
-        .default-view {
-            transition: opacity 0.3s ease;
-        }
-
-        .package-card:hover .default-view {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .hover-view {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #f8f9fa;
-            /* Match the light gray bg from image or white */
-            padding: 24px;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .package-card:hover .hover-view {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .hover-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .level-tag {
-            background: white;
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #333;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        .hover-price {
-            font-size: 20px;
-            font-weight: 700;
-            color: #3b82f6;
-        }
-
-        .hover-price small {
-            font-size: 13px;
-            color: #999;
-            font-weight: 400;
-        }
-
-        .hover-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 16px;
-            line-height: 1.4;
-        }
-
-        .card-stats {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 16px;
-            font-size: 13px;
-            color: #666;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .stat-item i {
-            color: #3b82f6;
-        }
-
-        .hover-desc {
-            font-size: 13px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            display: -webkit-box;
-            -webkit-line-clamp: 4;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .view-detail-btn {
-            background: #0ea5e9;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-top: auto;
-        }
-
-        .view-detail-btn:hover {
-            background: #0284c7;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 450px;
-            width: 90%;
-            position: relative;
-            animation: slideUp 0.3s ease;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            font-size: 28px;
-            font-weight: 300;
-            color: #999;
-            cursor: pointer;
-            transition: color 0.3s ease;
-            background: none;
-            border: none;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        .close-btn:hover {
-            color: #333;
-            background: #f0f0f0;
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .modal-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 8px;
-        }
-
-        .modal-subtitle {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .qr-container {
-            text-align: center;
-            margin: 24px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-        }
-
-        .qr-container img {
-            width: 280px;
-            height: 280px;
-            border-radius: 8px;
-            background: white;
-            padding: 12px;
-        }
-
-        .payment-info {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-size: 13px;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .info-value {
-            font-size: 14px;
-            color: #1a1a1a;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .copy-btn {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #2563eb;
-        }
-
-        .copy-btn.copied {
-            background: #10b981;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 28px;
-                margin-bottom: 30px;
-            }
-
-            .packages-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-
 
     <!-- GG FONT -->
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
         integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 
 <body>
@@ -750,11 +361,10 @@
                         software like Aldus PageMaker including versions of Lorem Ipsum
                     </p>
                     <div class="media">
-                        <div class="media-left"><img
-                                src="https://landing.engotheme.com/html/jenstore/demo/img/avatar.jpg" id="avatar"
-                                class="media-object" alt="img-holiwood"></div>
+                        <div class="media-left"><img src="/HongAnhWeb/image/avatar.jpg" id="avatar" class="media-object"
+                                alt="img-holiwood"></div>
                         <div class="media-body">
-                            <h3>Laura Ellie</h3><span>Founder</span>
+                            <h3>Hồng Anh</h3><span>Phan</span>
                         </div>
                     </div>
                 </figure>
@@ -765,8 +375,8 @@
 
 
         <div class="container collection" id="showcase-2">
-            <h1>Course</h1>
-            <h2>- All Category of Jenstore -</h2>
+            <h1>Khóa học</h1>
+            <h2>- Tất cả khóa học của Hồng Anh Phan -</h2>
             <div class="gallery clearfix">
                 <figure>
                     <div class="row">
@@ -776,7 +386,6 @@
                                 class="img-responsive" alt="img-holiwood">
                             <h3>HELLO SUMMER</h3>
                             <h1>Sale 10%</h1>
-                            <a href="#">View all courses</a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <div class="packages-grid">
@@ -916,6 +525,9 @@
                                         <button class="view-detail-btn">View Detail</button>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="view-all-container">
+                                <a href="#" class="view-all-btn">View All</a>
                             </div>
                         </div>
                     </div>
@@ -1194,6 +806,175 @@
                 </div>
             </div>
         </div>
+        </div>
+
+        <!-- Student Reviews Section -->
+        <div class="container student-reviews" id="showcase-5">
+            <h4 class="text-center sub-title">STUDENTS SAY</h4>
+            <h1 class="text-center main-title">Satisfaction is always present</h1>
+
+            <!-- Swiper -->
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <!-- Review 1 -->
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="card-header-review">
+                                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop"
+                                    alt="Student" class="student-img">
+                                <div class="student-info">
+                                    <h3>Pensive-Tesla</h3>
+                                    <span>1.2k Student</span>
+                                </div>
+                            </div>
+                            <div class="card-body-review">
+                                <p>Very interesting course. I loved the calmness over it all. I learned a lot about the
+                                    use of
+                                    colors. Green is never just green and white is never just white. Thank you!</p>
+                            </div>
+                            <div class="card-footer-review">
+                                <div class="star-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                        class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="card-header-review">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
+                                    alt="Student" class="student-img">
+                                <div class="student-info">
+                                    <h3>Pensive-Tesla</h3>
+                                    <span>1.2k Student</span>
+                                </div>
+                            </div>
+                            <div class="card-body-review">
+                                <p>"I recommend Futurelearn to anyone looking to learn and upskill...If you are in the
+                                    job
+                                    market, you might want to add a new skill or forge a new path."</p>
+                            </div>
+                            <div class="card-footer-review">
+                                <div class="star-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                        class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="card-header-review">
+                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop"
+                                    alt="Student" class="student-img">
+                                <div class="student-info">
+                                    <h3>Pensive-Tesla</h3>
+                                    <span>1.2k Student</span>
+                                </div>
+                            </div>
+                            <div class="card-body-review">
+                                <p>"FutureLearn courses are always interesting and informative. They bring the classroom
+                                    right
+                                    to you and send you on a journey to explore new ideas and offer interesting topics."
+                                </p>
+                            </div>
+                            <div class="card-footer-review">
+                                <div class="star-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                        class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 1 -->
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="card-header-review">
+                                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop"
+                                    alt="Student" class="student-img">
+                                <div class="student-info">
+                                    <h3>Pensive-Tesla</h3>
+                                    <span>1.2k Student</span>
+                                </div>
+                            </div>
+                            <div class="card-body-review">
+                                <p>Very interesting course. I loved the calmness over it all. I learned a lot about the
+                                    use of
+                                    colors. Green is never just green and white is never just white. Thank you!</p>
+                            </div>
+                            <div class="card-footer-review">
+                                <div class="star-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                        class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="card-header-review">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop"
+                                    alt="Student" class="student-img">
+                                <div class="student-info">
+                                    <h3>Pensive-Tesla</h3>
+                                    <span>1.2k Student</span>
+                                </div>
+                            </div>
+                            <div class="card-body-review">
+                                <p>"I recommend Futurelearn to anyone looking to learn and upskill...If you are in the
+                                    job
+                                    market, you might want to add a new skill or forge a new path."</p>
+                            </div>
+                            <div class="card-footer-review">
+                                <div class="star-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                        class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="swiper-slide">
+                        <div class="review-card">
+                            <div class="card-header-review">
+                                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop"
+                                    alt="Student" class="student-img">
+                                <div class="student-info">
+                                    <h3>Pensive-Tesla</h3>
+                                    <span>1.2k Student</span>
+                                </div>
+                            </div>
+                            <div class="card-body-review">
+                                <p>"FutureLearn courses are always interesting and informative. They bring the classroom
+                                    right
+                                    to you and send you on a journey to explore new ideas and offer interesting topics."
+                                </p>
+                            </div>
+                            <div class="card-footer-review">
+                                <div class="star-rating">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                        class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trust-badge text-center mt-5">
+                <span class="trust-label">Trust</span>
+                <span class="trust-text">More than 10,000 students trust and study at EDUMA</span>
+            </div>
+        </div>
     </main>
     <footer>
         <div class="container">
@@ -1261,8 +1042,28 @@
                 </div>
             </div>
         </div>
-        <div class="hidden-lg hidden-md back-to-top fade"><i class="fas fa-caret-up"></i></div>
+        <!-- <div class="hidden-lg hidden-md back-to-top fade"><i class="fas fa-caret-up"></i></div> -->
         <div class="BG-menu"></div>
+
+        <!-- Floating Contact Icons -->
+        <div class="floating-contacts">
+            <a href="#" class="contact-icon btn-facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="contact-icon btn-zalo">
+                <span class="zalo-text">Zalo</span>
+            </a>
+            <a href="#" class="contact-icon btn-messenger">
+                <i class="fab fa-facebook-messenger"></i>
+            </a>
+            <a href="#" class="contact-icon btn-phone">
+                <i class="fas fa-phone"></i>
+            </a>
+            <a href="#" class="contact-icon btn-back-to-top" id="scroll-to-top">
+                <i class="fas fa-arrow-up"></i>
+            </a>
+        </div>
+
         <!-- Modal quick view -->
         <div id="myModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -1586,6 +1387,59 @@
         integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ=="
         data-cf-beacon='{"version":"2024.11.0","token":"7bcff11f763943ceb4542e40bbe85bc1","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}'
         crossorigin="anonymous"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            // freeMode: true, // Removed to allow snapping one by one
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+            },
+        });
+
+        // Floating Icons Visibility Logic
+        var whoWeAreSection = document.querySelector('.who');
+        var floatingContacts = document.querySelector('.floating-contacts');
+
+        if (whoWeAreSection && floatingContacts) {
+            window.addEventListener('scroll', function () {
+                var sectionTop = whoWeAreSection.offsetTop;
+                var scrollPos = window.scrollY;
+
+                // Show icons when scrolled past the top of "Who we are" section
+                if (scrollPos >= sectionTop - window.innerHeight / 2) {
+                    floatingContacts.classList.add('show');
+                } else {
+                    floatingContacts.classList.remove('show');
+                }
+            });
+        }
+
+        // Scroll to Top functionality
+        document.getElementById('scroll-to-top').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
 
 </html>
