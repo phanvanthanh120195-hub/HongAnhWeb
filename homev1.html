@@ -17,6 +17,397 @@
         href="https://landing.engotheme.com/html/jenstore/demo/css/style-form-search-mobile.css">
     <!-- scroll -->
 
+    <style>
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .package-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .package-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-image {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .courses-count {
+            color: #3b82f6;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.4;
+            margin-bottom: 16px;
+            min-height: 50px;
+        }
+
+        .card-pricing {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .original-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 14px;
+        }
+
+        .current-price {
+            color: #3b82f6;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        /* Card specific colors */
+        .card-blue .card-image {
+            background: linear-gradient(135deg, #0f4c81 0%, #1e88e5 100%);
+        }
+
+        .card-orange .card-image {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+        }
+
+        /* Hover Effect Styles */
+        .package-card {
+            position: relative;
+            /* Ensure absolute child fits */
+        }
+
+        .default-view {
+            transition: opacity 0.3s ease;
+        }
+
+        .package-card:hover .default-view {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .hover-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f8f9fa;
+            /* Match the light gray bg from image or white */
+            padding: 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .package-card:hover .hover-view {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hover-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .level-tag {
+            background: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .hover-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        .hover-price small {
+            font-size: 13px;
+            color: #999;
+            font-weight: 400;
+        }
+
+        .hover-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .card-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-item i {
+            color: #3b82f6;
+        }
+
+        .hover-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .view-detail-btn {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: auto;
+        }
+
+        .view-detail-btn:hover {
+            background: #0284c7;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 28px;
+            font-weight: 300;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-btn:hover {
+            color: #333;
+            background: #f0f0f0;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .qr-container {
+            text-align: center;
+            margin: 24px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .qr-container img {
+            width: 280px;
+            height: 280px;
+            border-radius: 8px;
+            background: white;
+            padding: 12px;
+        }
+
+        .payment-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: #1a1a1a;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #2563eb;
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
 
     <!-- GG FONT -->
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
@@ -374,7 +765,7 @@
 
 
         <div class="container collection" id="showcase-2">
-            <h1>Shop by collection</h1>
+            <h1>Course</h1>
             <h2>- All Category of Jenstore -</h2>
             <div class="gallery clearfix">
                 <figure>
@@ -385,88 +776,145 @@
                                 class="img-responsive" alt="img-holiwood">
                             <h3>HELLO SUMMER</h3>
                             <h1>Sale 10%</h1>
-                            <a href="#">Shop now</a>
+                            <a href="#">View all courses</a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 product-collection">
-                                <div class="product-image-collec">
-                                    <figure class="hot"><a href="#"><img
-                                                src="https://landing.engotheme.com/html/jenstore/demo/img/collec-1.jpg"
-                                                class="img-responsive" alt="img-holiwood"></a></figure>
-                                    <div class="product-icon-collec">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="far fa-eye"></i></a>
-                                        <a href="#"><i class="fas fa-shopping-basket"></i></a>
-                                        <a href="#"><i class="far fa-heart"></i></a>
+                            <div class="packages-grid">
+                                <!-- Card 1 -->
+                                <div class="package-card" id="KH-1">
+                                    <div class="default-view">
+                                        <div class="card-image card-blue">
+                                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&amp;h=300&amp;fit=crop"
+                                                alt="Introduction to Artificial Intelligence">
+                                            <div class="card-badge">🎓</div>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="courses-count">6 Courses Included</div>
+                                            <h3 class="card-title">Master Your Mindset: Unleashing the Power Within</h3>
+                                            <div class="card-pricing">
+                                                <span class="original-price">$2530</span>
+                                                <span class="current-price">$2001</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product-title-collec">
-                                    <h5><a href="#"> Pink roses</a></h5>
-                                    <div class="star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="far fa-star"></i></div>
-                                    <div class="prince">$207.2</div>
+                                    <div class="hover-view">
+                                        <div class="hover-header">
+                                            <span class="level-tag">All levels</span>
+                                            <span class="hover-price">$30 <small>pw</small></span>
+                                        </div>
+                                        <h3 class="hover-title">Master Your Mindset: Unleashing the Power Within</h3>
+                                        <div class="card-stats">
+                                            <span class="stat-item"><i class="fas fa-user-graduate"></i> 35
+                                                Students</span>
+                                            <span class="stat-item"><i class="fas fa-file-alt"></i> 6 Lessons</span>
+                                        </div>
+                                        <p class="hover-desc">The jQuery team knows all about cross-browser issues, and
+                                            they have
+                                            written this knowledge into the jQuery library. jQuery will...</p>
+                                        <button class="view-detail-btn">View Detail</button>
+                                    </div>
                                 </div>
 
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 product-collection">
-                                <div class="product-image-collec">
-                                    <a href="#"><img
-                                            src="https://landing.engotheme.com/html/jenstore/demo/img/collec-2.jpg"
-                                            class="img-responsive" alt="img-holiwood"></a>
-                                    <div class="product-icon-collec">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="far fa-eye"></i></a>
-                                        <a href="#"><i class="fas fa-shopping-basket"></i></a>
-                                        <a href="#"><i class="far fa-heart"></i></a>
+                                <!-- Card 2 -->
+                                <div class="package-card" id="KH-2">
+                                    <div class="default-view">
+                                        <div class="card-image card-orange">
+                                            <img src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=400&amp;h=300&amp;fit=crop"
+                                                alt="Photography Workshop">
+                                            <div class="card-badge">📸</div>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="courses-count">6 Courses Included</div>
+                                            <h3 class="card-title">Illustrator master class</h3>
+                                            <div class="card-pricing">
+                                                <span class="original-price">$2690</span>
+                                                <span class="current-price">$2002</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hover-view">
+                                        <div class="hover-header">
+                                            <span class="level-tag">Beginner</span>
+                                            <span class="hover-price">$25 <small>pw</small></span>
+                                        </div>
+                                        <h3 class="hover-title">Illustrator master class</h3>
+                                        <div class="card-stats">
+                                            <span class="stat-item"><i class="fas fa-user-graduate"></i> 42
+                                                Students</span>
+                                            <span class="stat-item"><i class="fas fa-file-alt"></i> 8 Lessons</span>
+                                        </div>
+                                        <p class="hover-desc">Learn the basics of Adobe Illustrator and start creating
+                                            amazing vector graphics today. Perfect for beginners...</p>
+                                        <button class="view-detail-btn">View Detail</button>
                                     </div>
                                 </div>
-                                <div class="product-title-collec">
-                                    <h5><a href="#"> Eleganr by BloomNation</a></h5>
-                                    <div class="star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i></div>
-                                    <div class="prince">$115.4</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 product-collection">
-                                <div class="product-image-collec">
-                                    <a href="#"><img
-                                            src="https://landing.engotheme.com/html/jenstore/demo/img/collec-3.jpg"
-                                            class="img-responsive" alt="img-holiwood"></a>
-                                    <div class="product-icon-collec">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="far fa-eye"></i></a>
-                                        <a href="#"><i class="fas fa-shopping-basket"></i></a>
-                                        <a href="#"><i class="far fa-heart"></i></a>
+
+                                <!-- Card 3 -->
+                                <div class="package-card" id="KH-3">
+                                    <div class="default-view">
+                                        <div class="card-image card-blue">
+                                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&amp;h=300&amp;fit=crop"
+                                                alt="Introduction to Artificial Intelligence">
+                                            <div class="card-badge">🎓</div>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="courses-count">3 Courses Included</div>
+                                            <h3 class="card-title">Master Your Mindset: Unleashing the Power Within</h3>
+                                            <div class="card-pricing">
+                                                <span class="original-price">$4060</span>
+                                                <span class="current-price">$2003</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hover-view">
+                                        <div class="hover-header">
+                                            <span class="level-tag">Advanced</span>
+                                            <span class="hover-price">$45 <small>pw</small></span>
+                                        </div>
+                                        <h3 class="hover-title">Master Your Mindset: Unleashing the Power Within</h3>
+                                        <div class="card-stats">
+                                            <span class="stat-item"><i class="fas fa-user-graduate"></i> 15
+                                                Students</span>
+                                            <span class="stat-item"><i class="fas fa-file-alt"></i> 12 Lessons</span>
+                                        </div>
+                                        <p class="hover-desc">Dive deep into advanced cognitive strategies to unlock
+                                            your full potential. This course covers...</p>
+                                        <button class="view-detail-btn">View Detail</button>
                                     </div>
                                 </div>
-                                <div class="product-title-collec">
-                                    <h5><a href="#">Queen Rose - Yellow</a></h5>
-                                    <div class="star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="far fa-star"></i></div>
-                                    <div class="prince">$250.6</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 product-collection">
-                                <div class="product-image-collec">
-                                    <figure class="sale"><a href="#"><img
-                                                src="https://landing.engotheme.com/html/jenstore/demo/img/collec-4.jpg"
-                                                class="img-responsive" alt="img-holiwood"></a></figure>
-                                    <div class="product-icon-collec">
-                                        <a href="#" data-toggle="modal" data-target="#myModal"><i
-                                                class="far fa-eye"></i></a>
-                                        <a href="#"><i class="fas fa-shopping-basket"></i></a>
-                                        <a href="#"><i class="far fa-heart"></i></a>
+
+                                <!-- Card 4 -->
+                                <div class="package-card" id="KH-4">
+                                    <div class="default-view">
+                                        <div class="card-image card-blue">
+                                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&amp;h=300&amp;fit=crop"
+                                                alt="Introduction to Artificial Intelligence">
+                                            <div class="card-badge">🎓</div>
+                                        </div>
+                                        <div class="card-content">
+                                            <div class="courses-count">3 Courses Included</div>
+                                            <h3 class="card-title">Master Your Mindset: Unleashing the Power Within</h3>
+                                            <div class="card-pricing">
+                                                <span class="original-price">$4060</span>
+                                                <span class="current-price">$2003</span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product-title-collec">
-                                    <h5><a href="#">Cottage Rose Bouquet</a></h5>
-                                    <div class="star"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="far fa-star"></i><i
-                                            class="far fa-star"></i></div>
-                                    <div class="prince">$100.9<s class="strike">$150.9</s></div>
+                                    <div class="hover-view">
+                                        <div class="hover-header">
+                                            <span class="level-tag">Intermediate</span>
+                                            <span class="hover-price">$35 <small>pw</small></span>
+                                        </div>
+                                        <h3 class="hover-title">Master Your Mindset: Unleashing the Power Within</h3>
+                                        <div class="card-stats">
+                                            <span class="stat-item"><i class="fas fa-user-graduate"></i> 28
+                                                Students</span>
+                                            <span class="stat-item"><i class="fas fa-file-alt"></i> 5 Lessons</span>
+                                        </div>
+                                        <p class="hover-desc">A robust guide to understanding the psychology of success.
+                                            Improve your daily habits and...</p>
+                                        <button class="view-detail-btn">View Detail</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
