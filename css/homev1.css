@@ -137,11 +137,11 @@
 }
 
 .level-tag {
-    background: white;
+    background: #f5e7e6;
     padding: 4px 12px;
     border-radius: 6px;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 600;
     color: #333;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
